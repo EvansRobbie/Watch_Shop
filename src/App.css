@@ -10,4 +10,7 @@
     body{
         @apply bg-slate-900
     }
+    .mixed-blend{
+        mix-blend-mode: color-burn;
+    }
 }

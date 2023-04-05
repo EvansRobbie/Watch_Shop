@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../cart/CartSlice'
+
 
 interface ProductItems {
     id:number
@@ -11,6 +14,11 @@ interface Product <T>{
     products: T[] 
 }
 const Products = <T extends ProductItems>({products}:Product<T>) => {
+    const dispatch = useDispatch()
+    const handleAddToCart = (product: ProductItems) =>{
+        dispatch(addToCart({id: product.id, image:product.image, title: product.title, price: product.price}))
+        
+    }
     const productsElement = products.map((product)=>{
         const {id, title, description, image, price} = product
         return(
@@ -25,7 +33,7 @@ const Products = <T extends ProductItems>({products}:Product<T>) => {
                     </div>
                     <p className='text-slate-200 text-sm'>{description}</p>
                     <div className=' absolute text-center z-20 left-0 -bottom-10 opacity-0 rounded-tr-xl rounded-bl-xl w-8/12 overflow-hidden group-hover:opacity-100 group-hover:bottom-0 bg-gradient-to-tr from-cyan-500 to-slate-200 py-0.5 duration-300 ease-in px-2'>
-                    <button className='text-slate-900  active:scale-105 text-xs font-bold uppercase  overflow-hidden'>Add to Cart</button>
+                    <button onClick={()=>handleAddToCart(product)} className='text-slate-900  active:scale-105 text-xs font-bold uppercase  overflow-hidden'>Add to Cart</button>
                 </div>
                 </div>
                
@@ -34,7 +42,7 @@ const Products = <T extends ProductItems>({products}:Product<T>) => {
         )
     })
   return (
-    <div className=' relative w-full h-full max-w-[1140px] py-5 px-2 gap-4 mx-auto  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+    <div className=' relative w-full h-full max-w-[1140px] py-5 px-2 gap-4 mx-auto  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16'>
         {productsElement}
     </div>
   )
