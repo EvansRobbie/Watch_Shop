@@ -1,26 +1,35 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addToCart } from '../cart/CartSlice'
+import { Items } from '../app/type/type'
+import { addToCart, setGetTotal } from '../cart/CartSlice'
 
-
-interface ProductItems {
-    id:number
-    title: string
-    image: string
-    description: string
-    price: number
+type CartTotalProp = {
+    cartTotalQTY:number
 }
 interface Product <T>{
     products: T[] 
+    cartTotalQTY:number
+
 }
-const Products = <T extends ProductItems>({products}:Product<T>) => {
+const Products = <T extends Items  >({products}:Product<T>) => {
     const dispatch = useDispatch()
-    const handleAddToCart = (product: ProductItems) =>{
-        dispatch(addToCart({id: product.id, image:product.image, title: product.title, price: product.price}))
+    const handleAddToCart = (product: Items) =>{
+        dispatch(
+            addToCart(
+                {
+                    id: product.id, 
+                    image:product.image, 
+                    title: product.title, 
+                    price: product.price, 
+                    quantity:product.quantity, 
+                    description:product.description
+                }
+                )
+                 )
         
     }
     const productsElement = products.map((product)=>{
-        const {id, title, description, image, price} = product
+        const {id, title, description, image, price,} = product
         return(
             <div key={id} className='w-full relative  flex flex-col group h-[40vh] rounded-xl  border-0 border-cyan-500 shadow-md hover:shadow-cyan-400 hover:border hover:scale-105 duration-500 ease-in '>
                 <div className='w-full h-[20vh]  overflow-hidden rounded-t-xl '>
